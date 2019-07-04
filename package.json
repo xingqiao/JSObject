@@ -1,0 +1,21 @@
+{
+    "name": "js-obj",
+    "description": "JS对象字符串化及解析，支持函数和正则对象",
+    "version": "1.0.0",
+    "author": "xingqiao <cctshiyu@126.com>",
+    "main": "index.js",
+    "keywords": [
+        "js object",
+        "stringify",
+        "parse"
+    ],
+    "scripts": {
+        "publish": "npm publish"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/xingqiao/preact-dom-delegate.git"
+    },
+    "readmeFilename": "README.md",
+    "license": "MIT"
+}
