@@ -1,6 +1,15 @@
 # JS对象字符串化及解析，支持函数和正则对象
 
-> 支持 AMD、CMD、CommonJs
+[![NPM Version](https://img.shields.io/npm/v/js-object-stringify.svg?style=flat-square)](https://www.npmjs.com/package/js-object-stringify)
+[![NPM Downloads](https://img.shields.io/npm/dm/js-object-stringify.svg?style=flat-square)](https://www.npmjs.com/package/js-object-stringify)
+
+## 安装
+
+```bash
+$ npm i -S js-object-stringify
+```
+
+> 支持 AMD、CMD、CommonJs 方式引用
 
 ## 方法定义
 
