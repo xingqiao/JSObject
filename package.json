@@ -1,5 +1,5 @@
 {
-    "name": "js-obj",
+    "name": "js-object-stringify",
     "description": "JS对象字符串化及解析，支持函数和正则对象",
     "version": "1.0.0",
     "author": "xingqiao <cctshiyu@126.com>",
@@ -14,7 +14,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/xingqiao/preact-dom-delegate.git"
+        "url": "git+https://github.com/xingqiao/JSObject.git"
     },
     "readmeFilename": "README.md",
     "license": "MIT"

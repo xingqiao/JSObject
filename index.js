@@ -39,6 +39,8 @@
             var children;
             if (obj === undefined) {
                 return 'undefined';
+            } else if (obj instanceof Date) {
+                return 'new Date(' + JSON.stringify(obj.toISOString()) + ')';
             } else if (type === 'function' || obj instanceof RegExp) {
                 return obj.toString();
             } else if (type !== 'object' || obj instanceof String) {
@@ -80,4 +82,4 @@
     } else {
         this.JSObject = JSObject;
     }
-}).call(typeof window !== 'undefined' ? window : this);
+}.call(typeof window !== 'undefined' ? window : this));

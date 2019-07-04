@@ -6,13 +6,13 @@
 
 ```js
 /**
- * JS对象字符串化及解析，支持函数和正则对象
+ * JS对象字符串化及解析，支持函数、正则对象和日期对象
  * @namespace JSObject
  */
 var JSObject = {
     /**
      * 将js对象转为字符串，支持函数和正则对象
-     * @param {object} obj js对象，支持 object、array、string、number、boolean、RegExp、undefined、null
+     * @param {object} obj js对象，支持 object、array、string、number、boolean、RegExp、Date、undefined、null
      * @param {number} [space] 空格缩进
      * @returns {string} 格式化的js对象字符串
      */
@@ -32,12 +32,13 @@ var JSObject = {
 ```js
 const obj = {
     reg: /./i,
+    date: new Date('1990-11-10T03:42:00.000Z'),
     fun: (...args) => {
         console.log(args);
     }
 };
 
 JSObject.stringify(obj);
-// "{\n    \"reg\": /./i,\n    \"fun\": (...args) => {\n        console.log(args);\n    }\n}"
+// "{\n    \"reg\": /./i,\n    \"date\": new Date(\"1990-11-10T03:42:00.000Z\"),\n    \"fun\": (...args) => {\n        console.log(args);\n    }\n}"
 
 ```
