@@ -17,50 +17,75 @@
     }
 
     /**
+     * 将js对象转为字符串，支持函数和正则对象
+     * @param {string} key 
+     * @param {object} obj js对象，支持 Object、Array、String、Number、Boolean、RegExp、Date、undefined、null
+     * @param {function} replacer 替换函数
+     * @param {number} space 当前空格缩进
+     * @param {number} spaceUnit 换行增加的空格缩进
+     * @returns {string} 格式化的js对象字符串
+     */
+    function stringify(key, obj, replacer, space, spaceUnit) {
+        if (replacer) {
+            obj = replacer('' + key, obj);
+        }
+        if (obj === null) {
+            return 'null';
+        }
+        space = space > 0 ? parseInt(space) : 0;
+        var spaceText = getSpaceText(space);
+        space += spaceUnit;
+        var subSpaceText = getSpaceText(space);
+        var type = typeof obj;
+        var wrap = spaceUnit > 0 ? '\n' : '';
+        if (obj === undefined) {
+            return 'undefined';
+        } else if (obj instanceof Date) {
+            return 'new Date(' + JSON.stringify(obj.toISOString()) + ')';
+        } else if (type === 'function' || obj instanceof RegExp) {
+            return obj.toString();
+        } else if (type !== 'object' || obj instanceof String) {
+            return JSON.stringify(obj);
+        } else {
+            var isArray = Array.isArray(obj);
+            var children;
+            if (isArray) {
+                children = obj.map(function(item, index) {
+                    return subSpaceText + stringify(index, item, replacer, space, spaceUnit);
+                });
+            } else {
+                children = [];
+                for (const key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        children.push(subSpaceText + JSON.stringify(key) + ':' + (wrap ? ' ' : '') + stringify(key, obj[key], replacer, space, spaceUnit));
+                    }
+                }
+            }
+            children = children.length ? wrap + children.join(',' + wrap) + wrap + spaceText : '';
+            if (isArray) {
+                return '[' + children + ']';
+            } else {
+                return '{' + children + '}';
+            }
+        }
+    }
+
+    /**
      * JS对象字符串化及解析，支持函数和正则对象
      * @namespace JSObject
      */
     var JSObject = {
         /**
          * 将js对象转为字符串，支持函数和正则对象
-         * @param {object} obj js对象，支持 object、array、string、number、boolean、RegExp、undefined、null
+         * @param {object} obj js对象，支持 Object、Array、String、Number、Boolean、RegExp、Date、undefined、null
+         * @param {function} [replacer] 替换函数
          * @param {number} [space] 空格缩进
          * @returns {string} 格式化的js对象字符串
          */
-        stringify(obj, space) {
-            if (obj === null) {
-                return 'null';
-            }
+        stringify: function(obj, replacer, space) {
+            replacer = typeof replacer === 'function' ? replacer : null;
             space = space > 0 ? parseInt(space) : 0;
-            var spaceText = getSpaceText(space);
-            space += 4;
-            var subSpaceText = getSpaceText(space);
-            var type = typeof obj;
-            var children;
-            if (obj === undefined) {
-                return 'undefined';
-            } else if (obj instanceof Date) {
-                return 'new Date(' + JSON.stringify(obj.toISOString()) + ')';
-            } else if (type === 'function' || obj instanceof RegExp) {
-                return obj.toString();
-            } else if (type !== 'object' || obj instanceof String) {
-                return JSON.stringify(obj);
-            } else if (Array.isArray(obj)) {
-                children = obj.map(function(item) {
-                    return subSpaceText + JSObject.stringify(item, space);
-                });
-                children = children.length ? '\n' + children.join(',\n') + '\n' + spaceText : '';
-                return '[' + children + ']';
-            } else {
-                children = [];
-                for (const key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        children.push(subSpaceText + JSON.stringify(key) + ': ' + JSObject.stringify(obj[key], space));
-                    }
-                }
-                children = children.length ? '\n' + children.join(',\n') + '\n' + spaceText : '';
-                return '{' + children + '}';
-            }
+            return stringify('', obj, replacer, 0, space);
         },
 
         /**
@@ -68,7 +93,7 @@
          * @param {string} str 格式化的js对象字符串
          * @returns {object} js对象
          */
-        parse(str) {
+        parse: function(str) {
             return new Function('return (' + str + ')')();
         }
     };
