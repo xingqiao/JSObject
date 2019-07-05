@@ -11,7 +11,9 @@ $ npm i -S js-object-stringify
 
 ## 特性说明
 
-支持 AMD、CMD、CommonJs 方式引用
+支持 AMD、CMD、CommonJs 方式引入
+
+使用方法和 `JSON.stringify()` 一致
 
 支持的特殊类型包括
 - Function
