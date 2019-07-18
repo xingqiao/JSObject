@@ -5,10 +5,9 @@
     function getSpaceText(size) {
         if (size > 0) {
             if (!spaceMap[size]) {
-                spaceMap[size] = Math.pow(10, size)
-                    .toString()
-                    .slice(1)
-                    .replace(/0/g, ' ');
+                var space = [];
+                space[size] = '';
+                spaceMap[size] = space.join(' ');
             }
             return spaceMap[size];
         } else {
